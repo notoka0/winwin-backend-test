@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: winwin
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+
+  auth-api:
+    build: ./auth-api
+    ports:
+      - "8080:8080"
+    environment:
+      POSTGRES_URL: jdbc:postgresql://db:5432/winwin
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      JWT_SECRET: super-secret-key-12345-super-secret-key-12345
+      INTERNAL_TOKEN: secret-shared-token-6789
+    depends_on:
+      - db
+
+  data-api:
+    build: ./data-api
+    ports:
+      - "8081:8081"
+    environment:
+      INTERNAL_TOKEN: secret-shared-token-6789
