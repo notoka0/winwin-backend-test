@@ -8,8 +8,11 @@
 ## How to Build and Run
 
 1) Build and start the containers:
+   
    mvn -f auth-api/pom.xml clean package -DskipTests
+   
    mvn -f data-api/pom.xml clean package -DskipTests
+   
    docker compose up -d --build
 
 ## How to Test
